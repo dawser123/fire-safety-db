@@ -20,15 +20,15 @@ This project demonstrates the design and implementation of a normalized relation
 
 Stores core information about each building.
 
-| Column             | Type         | Description                        |
-|--------------------|--------------|------------------------------------|
-| `BuildingID`       | INT (PK)     | Unique building identifier         |
-| `BuildingName`     | VARCHAR      | Name of the building               |
-| `BuildingType`     | VARCHAR      | Type (e.g., residential, office)   |
-| `ConstructionYear` | INT          | Year the building was constructed  |
-| `BuildingSize`     | DECIMAL      | Size of the building (m²)          |
-| `City`             | VARCHAR      | City where the building is located |
-| `PostCode`         | VARCHAR      | Postal code                        |
+| Column             | Type           | Description                                        |
+|--------------------|----------------|----------------------------------------------------|
+| `BuildingID`       | INT (PK)       | Unique building identifier                         |
+| `BuildingName`     | VARCHAR(100)   | Name of the building                               |
+| `BuildingType`     | VARCHAR(50)    | Type: `Commercial`, `Industrial`, `Public`         |
+| `ConstructionYear` | INT            | Year the building was constructed                  |
+| `BuildingSize`     | VARCHAR(10)    | Size category: `Small`, `Medium`, `Large`          |
+| `City`             | VARCHAR(50)    | City where the building is located                 |
+| `PostCode`         | VARCHAR(10)    | Postal code                                        |
 
 ---
 
@@ -36,18 +36,17 @@ Stores core information about each building.
 
 Stores fire safety system details linked to buildings.
 
-| Column               | Type         | Description                              |
-|----------------------|--------------|------------------------------------------|
-| `SystemID`           | INT (PK)     | Unique system identifier                 |
-| `BuildingID`         | INT (FK)     | Reference to `Buildings.BuildingID`      |
-| `Supplier`           | VARCHAR      | System supplier/manufacturer             |
-| `SmokeDetector`      | INT          | Number of smoke detectors                |
-| `MultiDetector`      | INT          | Number of multi-function detectors       |
-| `Others`             | INT          | Count of other sensor types              |
-| `Detectors`          | INT          | Total number of detectors                |
-| `TotalErrors`        | INT          | Number of recorded faults/errors         |
-| `FirstInspectionYear`| INT          | Year of first inspection                 |
-| `FirstControl`       | INT          | Year of first official control           |
+| Column                | Type          | Description                               |
+|-----------------------|---------------|-------------------------------------------|
+| `SystemID`            | INT (PK)      | Unique system identifier                  |
+| `BuildingID`          | INT (FK)      | Reference to `Buildings.BuildingID`       |
+| `Supplier`            | VARCHAR(50)   | System supplier/manufacturer              |
+| `SmokeDetectors`      | INT           | Number of smoke detectors                 |
+| `MultiDetectors`      | INT           | Number of multi-function detectors        |
+| `OtherDetectors`      | VARCHAR(50)   | Other sensor types / descriptions         |
+| `TotalErrors`         | INT           | Number of recorded faults/errors          |
+| `FirstInspectionYear` | VARCHAR(25)   | Year of first inspection                  |
+| `FirstControl`        | BIT           | First control completed: `1` = yes, `0` = no     |
 
 ---
 
@@ -84,7 +83,7 @@ fire-safety-db/
 
 ```sql
 -- Get all buildings with their fire system supplier
-SELECT b.BuildingName, b.City, f.Supplier, f.Detectors, f.TotalErrors
+SELECT b.BuildingName, b.City, f.Supplier, f.SmokeDetectors, f.TotalErrors
 FROM Buildings b
 JOIN FireSystems f ON b.BuildingID = f.BuildingID;
 
@@ -95,8 +94,8 @@ JOIN FireSystems f ON b.BuildingID = f.BuildingID
 WHERE f.TotalErrors > 10
 ORDER BY f.TotalErrors DESC;
 
--- Total detectors per city
-SELECT b.City, SUM(f.Detectors) AS TotalDetectors
+-- Total smoke detectors per city
+SELECT b.City, SUM(f.SmokeDetectors) AS TotalSmokeDetectors
 FROM Buildings b
 JOIN FireSystems f ON b.BuildingID = f.BuildingID
 GROUP BY b.City;
@@ -119,7 +118,7 @@ GROUP BY b.City;
    ```bash
    git clone https://github.com/YOUR_USERNAME/fire-safety-db.git
    ```
-2. Open your SQL client (e.g., MySQL Workbench, DBeaver, pgAdmin)
+2. Open **Microsoft SQL Server Management Studio (SSMS)**
 3. Run `schema/create_buildings.sql` first
 4. Run `schema/create_firesystems.sql`
 5. Optionally load `data/sample_data.sql` for test data
