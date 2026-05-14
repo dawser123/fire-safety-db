@@ -136,8 +136,3 @@ This project was built to practice:
 
 ---
 
-## 👤 Author
-
-**[Your Name]**  
-📧 your.email@example.com  
-🔗 [LinkedIn](https://linkedin.com/in/yourprofile) | [GitHub](https://github.com/YOUR_USERNAME)
