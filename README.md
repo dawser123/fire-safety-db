@@ -66,15 +66,8 @@ One building can have **one or more** fire safety systems assigned to it.
 
 ```
 fire-safety-db/
-├── README.md
-├── schema/
-│   ├── create_buildings.sql      # DDL: Buildings table
-│   ├── create_firesystems.sql    # DDL: FireSystems table
-│   └── relationships.sql        # Foreign key constraints
-├── queries/
-│   └── sample_queries.sql       # Example SELECT queries
-└── data/
-    └── sample_data.sql           # Sample INSERT statements
+├── README.md        # Project documentation
+└── script.sql       # Database schema (CREATE TABLE + FOREIGN KEY)
 ```
 
 ---
@@ -123,16 +116,6 @@ GROUP BY b.City;
 4. Run `schema/create_firesystems.sql`
 5. Optionally load `data/sample_data.sql` for test data
 6. Explore queries in `queries/sample_queries.sql`
-
----
-
-## 📚 Learning Goals
-
-This project was built to practice:
-- Relational database design and normalization
-- Writing clean DDL (Data Definition Language) scripts
-- Using foreign keys and JOIN queries
-- Structuring a SQL project for readability and maintainability
 
 ---
 
